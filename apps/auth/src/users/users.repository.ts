@@ -1,7 +1,6 @@
 import { AbstractRepository } from '@app/common';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { UserDocument } from './models/user.schema';
-import { Logger } from 'nestjs-pino';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
