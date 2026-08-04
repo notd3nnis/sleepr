@@ -25,7 +25,7 @@ import Joi from 'joi';
         PORT: Joi.number().required(),
       }),
     }),
-    ClientModule.register({name:AUTH_SERVICE})
+    ClientModule.register({name:AUTH_SERVICE,transport:Transport.TCP})
   ],
   controllers: [ReservationsController],
   providers: [ReservationsService, ReservationsRepository],
