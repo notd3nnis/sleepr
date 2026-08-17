@@ -23,7 +23,9 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @MessagePattern('authenticate')
-  authenticate(@Payload() data: { user: UserDocument }) {
+  // JwtAuthGuard validates the payload's Authentication token and passport
+  // attaches the resolved user to that same payload object.
+  authenticate(@Payload() data: { user?: UserDocument }) {
     return data.user;
   }
 }

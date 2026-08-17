@@ -14,9 +14,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) =>
+        // HTTP requests carry the JWT in a cookie; over TCP the "request" is the
+        // message payload itself, which carries it as a bare Authentication key.
+        (request: Request & { Authentication?: string }) =>
           (request.cookies as Record<string, string> | undefined)
-            ?.Authentication ?? null,
+            ?.Authentication ??
+          request.Authentication ??
+          null,
       ]),
       secretOrKey: configService.getOrThrow<string>('JWT_SECRET'),
     });
