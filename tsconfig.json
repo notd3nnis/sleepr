@@ -16,10 +16,8 @@
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
-    // Required by Nest's tsconfig-paths-webpack-plugin to resolve @app/* at build
-    // time -- removing it breaks `nest build`. TS 6.0 deprecates it; once the
-    // project moves off TS 5.x, add "ignoreDeprecations": "6.0" (invalid on 5.9).
-    "baseUrl": ".",
+    // No "baseUrl": TS 6.0 deprecates it and TS 7.0 drops it. Path mappings are
+    // resolved relative to this file, so the "./" prefixes below stand alone.
     "paths": {
       "@app/common": [
         "./libs/common/src"
