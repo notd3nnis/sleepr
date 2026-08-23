@@ -32,7 +32,6 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "baseUrl": "./"
+    "noFallthroughCasesInSwitch": false
   }
 }

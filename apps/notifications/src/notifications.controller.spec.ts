@@ -4,19 +4,28 @@ import { NotificationsService } from './notifications.service';
 
 describe('NotificationsController', () => {
   let notificationsController: NotificationsController;
+  const notifyEmail = jest.fn();
 
   beforeEach(async () => {
+    notifyEmail.mockReset();
+
     const app: TestingModule = await Test.createTestingModule({
       controllers: [NotificationsController],
-      providers: [NotificationsService],
+      providers: [{ provide: NotificationsService, useValue: { notifyEmail } }],
     }).compile();
 
-    notificationsController = app.get<NotificationsController>(NotificationsController);
+    notificationsController = app.get<NotificationsController>(
+      NotificationsController,
+    );
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(notificationsController.getHello()).toBe('Hello World!');
+  describe('notifyEmail', () => {
+    it('delegates the payload to NotificationsService', () => {
+      const dto = { email: 'test@example.com' };
+
+      notificationsController.notifyEmail(dto);
+
+      expect(notifyEmail).toHaveBeenCalledWith(dto);
     });
   });
 });

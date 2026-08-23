@@ -1,10 +1,10 @@
-import { Inject, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import Joi, { optional } from 'joi';
-import { LoggerModule } from '@app/common';
-import { Client, ClientsModule } from '@nestjs/microservices';
+import Joi from 'joi';
+import { LoggerModule, NOTIFICATIONS_SERVICE } from '@app/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -22,16 +22,16 @@ import { Client, ClientsModule } from '@nestjs/microservices';
     ClientsModule.registerAsync([
       {
         name: NOTIFICATIONS_SERVICE,
-        useFactory: (configService: ConfigService) => {
-          transport:Transport.TCP,
-          optional:{
-            host:configService.get('NOTIFICATIONS_HOST'),
-            port:configService.get('NOTIFICATIONS_PORT')
-          }
-        },
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.getOrThrow<string>('NOTIFICATIONS_HOST'),
+            port: configService.getOrThrow<number>('NOTIFICATIONS_PORT'),
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
-    inject:[ConfigService]
   ],
   controllers: [PaymentsController],
   providers: [PaymentsService],

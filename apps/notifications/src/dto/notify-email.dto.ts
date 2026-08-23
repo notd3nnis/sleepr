@@ -1,4 +1,6 @@
+import { IsEmail } from 'class-validator';
+
 export class NotifyEmailDto {
-  @isEmail()
-  email: string;
+  @IsEmail()
+  email!: string;
 }

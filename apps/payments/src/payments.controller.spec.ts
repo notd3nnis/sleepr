@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
-import { CreateChargeDto } from '@app/common';
 import Stripe from 'stripe';
+import { PaymentsCreateChargeDto } from './dto/payments.create-charge.dto';
 
 describe('PaymentsController', () => {
   let paymentsController: PaymentsController;
@@ -26,8 +26,9 @@ describe('PaymentsController', () => {
       } as Stripe.Response<Stripe.PaymentIntent>;
       createCharge.mockResolvedValue(paymentIntent);
 
-      const dto: CreateChargeDto = {
+      const dto: PaymentsCreateChargeDto = {
         amount: 10,
+        email: 'test@example.com',
         card: {
           cvc: '413',
           exp_month: 12,
