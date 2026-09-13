@@ -5,7 +5,7 @@ import { Response } from 'express';
 import { Types } from 'mongoose';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserDocument } from './users/models/user.schema';
+import { UserDocument } from '../../../libs/common/src/models/user.schema';
 
 describe('AuthController', () => {
   let authController: AuthController;

@@ -26,12 +26,12 @@ export class NotificationsService {
     });
   }
 
-  async notifyEmail({ email }: NotifyEmailDto) {
+  async notifyEmail({ email, text }: NotifyEmailDto) {
     await this.transporter.sendMail({
       from: this.configService.getOrThrow<string>('SMTP_USER'),
       to: email,
       subject: 'Sleepr Notification',
-      text: 'Your reservation has been confirmed.',
+      text,
     });
   }
 }

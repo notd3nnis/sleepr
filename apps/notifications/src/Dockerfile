@@ -1,34 +1,29 @@
-FROM node:alpine As development
+FROM node:22-alpine AS development
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-COPY pnpm-workspace.yaml ./
-COPY tsconfig.json tsconfig.json
-COPY nest-cli.json nest-cli.json
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY tsconfig.json nest-cli.json webpack.config.js ./
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@12.4.1
 
 RUN pnpm install
 
-COPY apps/reservations apps/reservations
+COPY apps apps
 COPY libs libs
 
-RUN pnpm run build reservations
+RUN pnpm run build notifications
 
-FROM node:alpine as production
+FROM node:22-alpine AS production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-COPY pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@12.4.1
 
 RUN pnpm install --prod
 
